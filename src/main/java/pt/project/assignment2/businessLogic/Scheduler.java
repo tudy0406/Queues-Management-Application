@@ -5,6 +5,7 @@ import pt.project.assignment2.dataModel.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Scheduler {
     private static List<Server> servers = new ArrayList<>();
@@ -31,8 +32,8 @@ public class Scheduler {
         }
     }
 
-    public void dispatchTask(Task task) {
-        strategy.addTask(servers, task);
+    public AtomicInteger dispatchTask(Task task) {
+        return strategy.addTask(servers, task);
     }
 
     public List<Server> getServers() {

@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationManager implements Runnable {
     //data read fromUI
@@ -52,9 +53,18 @@ public class SimulationManager implements Runnable {
         generatedTasks.sort(Comparator.comparing(Task::getArrivalTime));
     }
 
+    private float getAverageServiceTime(List<Task> tasks){
+        int serviceTime = 0;
+        for(Task task : tasks){
+            serviceTime += task.getServiceTime();
+        }
+        return (float)serviceTime / tasks.size();
+    }
+
     @Override
     public void run(){
         int currentTime = 0;
+        float averageServiceTime = getAverageServiceTime(generatedTasks);
         File file = new File(Constants.FILE_NAME);
         FileWriter writer = null;
         try{
@@ -65,15 +75,23 @@ public class SimulationManager implements Runnable {
         }
         PrintWriter printWriter = new PrintWriter(writer);
         int i;
+        int currentHourTasks;
+        boolean empty = true;
+        AtomicInteger waitingTime = new AtomicInteger(0);
+        int numberOfTasks = generatedTasks.size();
+        int maxNumberOfTasksPerHour = -1;
+        int peakHour = -1;
         try {
+
             while (currentTime < timeLimit) {
+                currentHourTasks = 0;
                 //stuff
                 Iterator<Task> iterator = generatedTasks.iterator();
                 while(iterator.hasNext()){
                     Task task = iterator.next();
                     if(task.getArrivalTime() <= currentTime){
                         try{
-                            scheduler.dispatchTask(task);
+                            waitingTime.addAndGet(scheduler.dispatchTask(task).get());
                             iterator.remove();
                         }catch(Exception e){
                             System.out.println(e.getMessage());
@@ -87,6 +105,8 @@ public class SimulationManager implements Runnable {
                     printWriter.print("Empty");
                 }else{
                     for (Task task : generatedTasks) {
+                        if(task.getArrivalTime() <= currentTime)
+                            currentHourTasks++;
                         printWriter.print(task + ", ");
                     }
                 }
@@ -98,6 +118,7 @@ public class SimulationManager implements Runnable {
                         printWriter.print("empty");
                     else{
                         for (Task task : server.getTasks()) {
+                            currentHourTasks++;
                             printWriter.print(task + ", ");
                         }
                     }
@@ -110,11 +131,18 @@ public class SimulationManager implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                if(currentHourTasks > maxNumberOfTasksPerHour){
+                    maxNumberOfTasksPerHour = currentHourTasks;
+                    peakHour = i;
+                }
                 currentTime++;
             }
             for (Server server : scheduler.getServers()){
                 server.setRunning(false);
             }
+            printWriter.println("Average waiting time: " + (float)waitingTime.get()/numberOfTasks);
+            printWriter.println("Average service time: " + averageServiceTime);
+            printWriter.println("Peak hour: " + peakHour);
             printWriter.close();
         }catch(Exception e){
             throw new RuntimeException(e.getMessage());

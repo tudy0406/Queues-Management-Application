@@ -4,11 +4,12 @@ import pt.project.assignment2.dataModel.Server;
 import pt.project.assignment2.dataModel.Task;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QueueStrategy implements Strategy {
 
     @Override
-    public void addTask(List<Server> servers, Task t){
+    public AtomicInteger addTask(List<Server> servers, Task t){
         Server server = null;
         int minSize = Integer.MAX_VALUE;
         for(Server s : servers){
@@ -23,8 +24,9 @@ public class QueueStrategy implements Strategy {
             server.getTasks().add(t);
             server.setWaitingPeriod();
             System.out.println(t + "added successfully");
+            return server.getWaitingPeriod();
         }else{
-            throw new IllegalArgumentException("Server queue not available!");
+            return new AtomicInteger(1);
         }
     }
 }

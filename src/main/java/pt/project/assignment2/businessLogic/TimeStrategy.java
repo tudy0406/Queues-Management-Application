@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TimeStrategy implements Strategy {
 
     @Override
-    public void addTask(List<Server> servers, Task t){
+    public AtomicInteger addTask(List<Server> servers, Task t){
         //To do Auto-generated method stub
         Server server = null;
         int minWaitingTime = Integer.MAX_VALUE;
@@ -23,6 +23,7 @@ public class TimeStrategy implements Strategy {
             server.getTasks().add(t);
             server.setWaitingPeriod();
             System.out.println(t + " added successfully");
+            return server.getWaitingPeriod();
         }else{
             throw new IllegalArgumentException("Server queue not available!");
         }

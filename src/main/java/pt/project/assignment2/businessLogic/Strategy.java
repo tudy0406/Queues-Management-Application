@@ -4,7 +4,8 @@ import pt.project.assignment2.dataModel.Server;
 import pt.project.assignment2.dataModel.Task;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public interface Strategy {
-    void addTask(List<Server> servers, Task t);
+    AtomicInteger addTask(List<Server> servers, Task t);
 }

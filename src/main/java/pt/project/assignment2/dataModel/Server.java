@@ -2,8 +2,6 @@ package pt.project.assignment2.dataModel;
 
 import pt.project.assignment2.config.Constants;
 
-import java.lang.module.Configuration;
-import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
