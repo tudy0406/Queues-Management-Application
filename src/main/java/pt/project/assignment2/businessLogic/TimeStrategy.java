@@ -24,7 +24,7 @@ public class TimeStrategy implements Strategy {
             server.setWaitingPeriod();
             System.out.println(t + " added successfully");
         }else{
-            System.out.println("No server queue available");
+            throw new IllegalArgumentException("Server queue not available!");
         }
     }
 }

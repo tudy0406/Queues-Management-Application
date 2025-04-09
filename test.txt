@@ -1,0 +1,120 @@
+Time: 0
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 1
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 2
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 3
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 4
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 5
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 6
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 7
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 8
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 9
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 10
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 11
+Waiting queue: (1, 12, 4), (3, 12, 2), (0, 14, 4), (2, 17, 6), 
+Queue 1: empty
+Queue 2: empty
+Time: 12
+Waiting queue: (0, 14, 4), (2, 17, 6), 
+Queue 1: (1, 12, 4), 
+Queue 2: (3, 12, 2), 
+Time: 13
+Waiting queue: (0, 14, 4), (2, 17, 6), 
+Queue 1: (1, 12, 3), 
+Queue 2: (3, 12, 1), 
+Time: 14
+Waiting queue: (2, 17, 6), 
+Queue 1: (1, 12, 2), 
+Queue 2: (0, 14, 4), 
+Time: 15
+Waiting queue: (2, 17, 6), 
+Queue 1: (1, 12, 1), 
+Queue 2: (0, 14, 3), 
+Time: 16
+Waiting queue: (2, 17, 6), 
+Queue 1: empty
+Queue 2: (0, 14, 2), 
+Time: 17
+Waiting queue: Empty
+Queue 1: (2, 17, 6), 
+Queue 2: (0, 14, 1), 
+Time: 18
+Waiting queue: Empty
+Queue 1: (2, 17, 5), 
+Queue 2: empty
+Time: 19
+Waiting queue: Empty
+Queue 1: (2, 17, 4), 
+Queue 2: empty
+Time: 20
+Waiting queue: Empty
+Queue 1: (2, 17, 3), 
+Queue 2: empty
+Time: 21
+Waiting queue: Empty
+Queue 1: (2, 17, 2), 
+Queue 2: empty
+Time: 22
+Waiting queue: Empty
+Queue 1: (2, 17, 1), 
+Queue 2: empty
+Time: 23
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 24
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 25
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 26
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 27
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 28
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Time: 29
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
