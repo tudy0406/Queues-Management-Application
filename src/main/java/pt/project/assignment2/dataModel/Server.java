@@ -3,16 +3,18 @@ package pt.project.assignment2.dataModel;
 import pt.project.assignment2.config.Constants;
 
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server implements Runnable {
-    private BlockingDeque<Task> tasks;
+    private BlockingQueue<Task> tasks;
     private AtomicInteger waitingPeriod = new AtomicInteger(0);
     private boolean running = true;
 
     public Server() {
-        this.tasks = new LinkedBlockingDeque<Task>();
+        this.tasks = new LinkedBlockingQueue<Task>();
         waitingPeriod.set(0);
     }
 
@@ -35,7 +37,7 @@ public class Server implements Runnable {
         }
     }
 
-    public BlockingDeque<Task> getTasks(){
+    public BlockingQueue<Task> getTasks(){
         return tasks;
     }
 

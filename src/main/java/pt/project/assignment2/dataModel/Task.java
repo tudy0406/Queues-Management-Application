@@ -15,10 +15,6 @@ public class Task {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getServiceTime() {
         return serviceTime;
     }
@@ -29,18 +25,6 @@ public class Task {
 
     public int getArrivalTime() {
         return arrivalTime;
-    }
-
-    public void setArrivalTime(int arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.getId();
     }
 
     @Override

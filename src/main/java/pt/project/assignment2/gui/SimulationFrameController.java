@@ -53,27 +53,37 @@ public class SimulationFrameController {
             alert.setContentText("Please fill in all the fields!");
             alert.showAndWait();
         }else{
-            int timeLimit = Integer.parseInt(timeLimitField.getText());
-            int nbServers = Integer.parseInt(nbServersField.getText());
-            int nbClients = Integer.parseInt(nbClientsField.getText());
-            int minArrivalTime = Integer.parseInt(minArrivalTimeField.getText());
-            int maxArrivalTime = Integer.parseInt(maxArrivalTimeField.getText());
-            int minServiceTime = Integer.parseInt(minServiceTimeField.getText());
-            int maxServiceTime = Integer.parseInt(maxServiceTimeField.getText());
-            SimulationManager simulationManager = new SimulationManager(timeLimit, nbServers, nbClients, minArrivalTime, maxArrivalTime, minServiceTime, maxServiceTime, selectionPolicy);
-            Thread thread = new Thread(simulationManager);
-            thread.start();
-            FXMLLoader loader = new FXMLLoader(SimulationFrameController.class.getResource("/pt/project/assignment2/filelog.fxml"));
-            try{
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.setTitle("View Log");
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.show();
-            }catch(IOException e){
-                e.printStackTrace();
+            try {
+                int timeLimit = Integer.parseInt(timeLimitField.getText());
+                int nbServers = Integer.parseInt(nbServersField.getText());
+                int nbClients = Integer.parseInt(nbClientsField.getText());
+                int minArrivalTime = Integer.parseInt(minArrivalTimeField.getText());
+                int maxArrivalTime = Integer.parseInt(maxArrivalTimeField.getText());
+                int minServiceTime = Integer.parseInt(minServiceTimeField.getText());
+                int maxServiceTime = Integer.parseInt(maxServiceTimeField.getText());
+                if(nbServers < 0 || nbClients < 0 || minArrivalTime < 0 || maxArrivalTime < 0 || minServiceTime < 0
+                        || minArrivalTime > maxArrivalTime || minServiceTime > maxServiceTime || maxArrivalTime > timeLimit || maxServiceTime > timeLimit){
+                    AlertController.showAlert("Invalid Input!");
+                }else{
+                    SimulationManager simulationManager = new SimulationManager(timeLimit, nbServers, nbClients, minArrivalTime, maxArrivalTime, minServiceTime, maxServiceTime, selectionPolicy);
+                    Thread thread = new Thread(simulationManager);
+                    thread.start();
+                    FXMLLoader loader = new FXMLLoader(SimulationFrameController.class.getResource("/pt/project/assignment2/filelog.fxml"));
+                    try{
+                        Parent root = loader.load();
+                        Stage stage = new Stage();
+                        stage.setTitle("View Log");
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.show();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }catch(NumberFormatException e){
+                AlertController.showAlert("Invalid Input!");
             }
+
         }
     }
     private boolean checkFields(){

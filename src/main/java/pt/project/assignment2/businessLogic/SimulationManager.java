@@ -17,37 +17,28 @@ public class SimulationManager implements Runnable {
     private int timeLimit = 100;
     private int minArrivalTime = 10;
     private int maxArrivalTime = 10;
-    private int maxProcessingTime = 10;
-    private int minProcessingTime = 2;
+    private int maxServiceTime = 10;
+    private int minServiceTime = 2;
     private int numberOfServers = 3;
     private int numberOfClients = 100;
     private SelectionPolicy selectionPolicy = SelectionPolicy.SHORTEST_TIME;
 
     //entity responsible with queue management and client distribution
     private Scheduler scheduler;
-    //frame for displaying simulation
-    private SimulationFrameController frame;
     //pool of tasks (client shopping in the store)
     private List<Task> generatedTasks;
 
     private static boolean running;
 
-    public SimulationManager(int timeLimit, int numberOfServers, int numberOfClients, int minArrivalTime, int maxArrivalTime, int minProcessingTime, int maxProcessingTime, SelectionPolicy selectionPolicy) {
+    public SimulationManager(int timeLimit, int numberOfServers, int numberOfClients, int minArrivalTime, int maxArrivalTime, int minServiceTime, int maxServiceTime, SelectionPolicy selectionPolicy) {
         this.timeLimit = timeLimit;
         this.minArrivalTime = minArrivalTime;
         this.maxArrivalTime = maxArrivalTime;
-        this.maxProcessingTime = maxProcessingTime;
-        this.minProcessingTime = minProcessingTime;
+        this.maxServiceTime = maxServiceTime;
+        this.minServiceTime = minServiceTime;
         this.numberOfServers = numberOfServers;
         this.numberOfClients = numberOfClients;
         this.selectionPolicy = selectionPolicy;
-        System.out.println("Time limit is " + this.timeLimit);
-        System.out.println("Number of servers is " + this.numberOfServers);
-        System.out.println("Number of clients is " + this.numberOfClients);
-        System.out.println("Minimum arrival time is " + this.minArrivalTime);
-        System.out.println("Maximum arrival time is " + this.maxArrivalTime);
-        System.out.println("Minimum service time is " + this.minProcessingTime);
-        System.out.println("Maximum service time is " + this.maxProcessingTime);
         generatedTasks = new ArrayList<Task>();
         generateNRandomTasks();
         scheduler = new Scheduler(this.numberOfServers, this.selectionPolicy);
@@ -60,7 +51,7 @@ public class SimulationManager implements Runnable {
         Random random = new Random();
         for(int i = 0; i < numberOfClients; i++){
             arrivalTime = random.nextInt(minArrivalTime, maxArrivalTime);
-            serviceTime = random.nextInt(minProcessingTime, maxProcessingTime);
+            serviceTime = random.nextInt(minServiceTime, maxServiceTime);
             generatedTasks.add(new Task(i, arrivalTime, serviceTime));
         }
         generatedTasks.sort(Comparator.comparing(Task::getArrivalTime));
@@ -78,15 +69,17 @@ public class SimulationManager implements Runnable {
     public void run(){
         int currentTime = 0;
         float averageServiceTime = getAverageServiceTime(generatedTasks);
+
         File file = new File(Constants.FILE_NAME);
         FileWriter writer = null;
         try{
             writer = new FileWriter(file);
-        }catch(IOException e){
+        }catch(IOException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
         PrintWriter printWriter = new PrintWriter(writer);
+
         int i;
         int currentHourTasks;
         boolean empty;
@@ -95,11 +88,9 @@ public class SimulationManager implements Runnable {
         int maxNumberOfTasksPerHour = -1;
         int peakHour = -1;
         try {
-
             while (currentTime < timeLimit) {
                 currentHourTasks = 0;
                 empty = true;
-                //stuff
                 Iterator<Task> iterator = generatedTasks.iterator();
                 while(iterator.hasNext()){
                     Task task = iterator.next();
@@ -141,7 +132,6 @@ public class SimulationManager implements Runnable {
                 }
                 printWriter.println();
                 printWriter.flush();
-                //wait an interval of 1 second
                 try {
                     Thread.sleep(Constants.SLEEP_TIME);
                 } catch (InterruptedException e) {
@@ -169,15 +159,13 @@ public class SimulationManager implements Runnable {
             throw new RuntimeException(e.getMessage());
         }
     }
-
+    public static boolean getRunningState(){
+        return running;
+    }
     private void stopSimulation(){
         running = false;
         Thread.currentThread().interrupt();
     }
-    public static boolean getRunningState(){
-        return running;
-    }
-
     public static void main(String[] args){
         SimulationManager simulationManager = new SimulationManager(200, 20,1000,10,100,3,9, SelectionPolicy.SHORTEST_TIME);
         Thread t1 = new Thread(simulationManager);
