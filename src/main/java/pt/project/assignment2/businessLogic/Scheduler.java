@@ -8,16 +8,15 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Scheduler {
-    private static List<Server> servers = new ArrayList<>();
-    private static int maxNoServers;
-    private static int maxTasksPerServer;
+    private List<Server> servers;
+    private int maxNoServers;
     private Strategy strategy;
 
-    public Scheduler(int maxNoServers, int maxTasksPerServer, SelectionPolicy selectionPolicy) {
-        Scheduler.maxNoServers = maxNoServers;
-        Scheduler.maxTasksPerServer = maxTasksPerServer;
+    public Scheduler(int maxNoServers, SelectionPolicy selectionPolicy) {
+        this.maxNoServers = maxNoServers;
         changeStrategy(selectionPolicy);
-        for(int i = 0; i < maxNoServers; i++) {
+        servers = new ArrayList<>();
+        for(int i = 0; i < this.maxNoServers; i++) {
             Server server = new Server();
             Thread thread = new Thread(server);
             servers.add(server);
@@ -27,8 +26,14 @@ public class Scheduler {
 
     public void changeStrategy(SelectionPolicy policy) {
         switch (policy) {
-            case SelectionPolicy.SHORTEST_QUEUE -> strategy = new QueueStrategy();
-            case SelectionPolicy.SHORTEST_TIME -> strategy = new TimeStrategy();
+            case SelectionPolicy.SHORTEST_QUEUE -> {
+                strategy = new QueueStrategy();
+                System.out.println("Shortest Queue strategy");
+            }
+            case SelectionPolicy.SHORTEST_TIME ->{
+                strategy = new TimeStrategy();
+                System.out.println("Shortest Time strategy");
+            }
         }
     }
 
@@ -38,13 +43,5 @@ public class Scheduler {
 
     public List<Server> getServers() {
         return servers;
-    }
-
-    public static int getMaxNoServers() {
-        return maxNoServers;
-    }
-
-    public static int getMaxTasksPerServer() {
-        return maxTasksPerServer;
     }
 }

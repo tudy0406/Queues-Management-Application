@@ -13,8 +13,6 @@ public class QueueStrategy implements Strategy {
         Server server = null;
         int minSize = Integer.MAX_VALUE;
         for(Server s : servers){
-            if(s.getTasks().size()>=Scheduler.getMaxTasksPerServer())
-                continue;
             if(s.getTasks().size() < minSize){
                 minSize = s.getTasks().size();
                 server = s;

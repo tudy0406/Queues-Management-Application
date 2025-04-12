@@ -44,6 +44,7 @@ public class Server implements Runnable {
     }
 
     public void setWaitingPeriod() {
+        waitingPeriod.set(0);
         for (Task task : tasks) {
             waitingPeriod.addAndGet(task.getServiceTime());
         }

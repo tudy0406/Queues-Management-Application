@@ -12,8 +12,6 @@ public class TimeStrategy implements Strategy {
         Server server = null;
         int minWaitingTime = Integer.MAX_VALUE;
         for(Server s : servers){
-            if(s.getTasks().size() >= Scheduler.getMaxTasksPerServer())
-                continue;
             if(s.getWaitingPeriod().intValue()<minWaitingTime){
                 minWaitingTime = s.getWaitingPeriod().intValue();
                 server = s;

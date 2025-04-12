@@ -1,0 +1,131 @@
+Time: 0
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 1
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 2
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 3
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 4
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 5
+Waiting queue: (2, 6, 3), (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 6
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: (2, 6, 3), 
+Queue 2: empty
+Time: 7
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: (2, 6, 2), 
+Queue 2: empty
+Time: 8
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: (2, 6, 1), 
+Queue 2: empty
+Time: 9
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 10
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 11
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 12
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 13
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 14
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 15
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 16
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 17
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 18
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 19
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 20
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 21
+Waiting queue: (0, 22, 2), (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 22
+Waiting queue: (1, 27, 2), (3, 28, 3), 
+Queue 1: (0, 22, 2), 
+Queue 2: empty
+Time: 23
+Waiting queue: (1, 27, 2), (3, 28, 3), 
+Queue 1: (0, 22, 1), 
+Queue 2: empty
+Time: 24
+Waiting queue: (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 25
+Waiting queue: (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 26
+Waiting queue: (1, 27, 2), (3, 28, 3), 
+Queue 1: empty
+Queue 2: empty
+Time: 27
+Waiting queue: (3, 28, 3), 
+Queue 1: (1, 27, 2), 
+Queue 2: empty
+Time: 28
+Waiting queue: Empty
+Queue 1: (1, 27, 1), 
+Queue 2: (3, 28, 3), 
+Time: 29
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: (3, 28, 2), 
+Time: 30
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: (3, 28, 1), 
+Time: 31
+Waiting queue: Empty
+Queue 1: empty
+Queue 2: empty
+Average waiting time: 2.5
+Average service time: 2.5
+Peak hour: 28

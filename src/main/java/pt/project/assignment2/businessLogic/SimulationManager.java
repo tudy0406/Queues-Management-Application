@@ -3,7 +3,7 @@ package pt.project.assignment2.businessLogic;
 import pt.project.assignment2.config.Constants;
 import pt.project.assignment2.dataModel.Server;
 import pt.project.assignment2.dataModel.Task;
-import pt.project.assignment2.gui.SimulationFrame;
+import pt.project.assignment2.gui.SimulationFrameController;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,31 +14,44 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationManager implements Runnable {
     //data read fromUI
-    public int timeLimit = 100;
-    public int maxProcessingTime = 10;
-    public int minProcessingTime = 2;
-    public int numberOfServers = 3;
-    public int numberOfClients = 100;
-    public int maxTasksPerServer = 2;
-    public SelectionPolicy selectionPolicy = SelectionPolicy.SHORTEST_TIME;
+    private int timeLimit = 100;
+    private int minArrivalTime = 10;
+    private int maxArrivalTime = 10;
+    private int maxProcessingTime = 10;
+    private int minProcessingTime = 2;
+    private int numberOfServers = 3;
+    private int numberOfClients = 100;
+    private SelectionPolicy selectionPolicy = SelectionPolicy.SHORTEST_TIME;
 
     //entity responsible with queue management and client distribution
     private Scheduler scheduler;
     //frame for displaying simulation
-    private SimulationFrame frame;
+    private SimulationFrameController frame;
     //pool of tasks (client shopping in the store)
     private List<Task> generatedTasks;
 
-    public SimulationManager(int timeLimit, int maxProcessingTime, int minProcessingTime, int numberOfServers, int numberOfClients, int maxTasksPerServer) {
+    private static boolean running;
+
+    public SimulationManager(int timeLimit, int numberOfServers, int numberOfClients, int minArrivalTime, int maxArrivalTime, int minProcessingTime, int maxProcessingTime, SelectionPolicy selectionPolicy) {
         this.timeLimit = timeLimit;
+        this.minArrivalTime = minArrivalTime;
+        this.maxArrivalTime = maxArrivalTime;
         this.maxProcessingTime = maxProcessingTime;
         this.minProcessingTime = minProcessingTime;
         this.numberOfServers = numberOfServers;
         this.numberOfClients = numberOfClients;
-        this.maxTasksPerServer = maxTasksPerServer;
+        this.selectionPolicy = selectionPolicy;
+        System.out.println("Time limit is " + this.timeLimit);
+        System.out.println("Number of servers is " + this.numberOfServers);
+        System.out.println("Number of clients is " + this.numberOfClients);
+        System.out.println("Minimum arrival time is " + this.minArrivalTime);
+        System.out.println("Maximum arrival time is " + this.maxArrivalTime);
+        System.out.println("Minimum service time is " + this.minProcessingTime);
+        System.out.println("Maximum service time is " + this.maxProcessingTime);
         generatedTasks = new ArrayList<Task>();
         generateNRandomTasks();
-        scheduler = new Scheduler(numberOfServers, maxTasksPerServer, selectionPolicy);
+        scheduler = new Scheduler(this.numberOfServers, this.selectionPolicy);
+        running = true;
 
     }
 
@@ -46,7 +59,7 @@ public class SimulationManager implements Runnable {
         int arrivalTime, serviceTime;
         Random random = new Random();
         for(int i = 0; i < numberOfClients; i++){
-            arrivalTime = random.nextInt(timeLimit-maxProcessingTime);
+            arrivalTime = random.nextInt(minArrivalTime, maxArrivalTime);
             serviceTime = random.nextInt(minProcessingTime, maxProcessingTime);
             generatedTasks.add(new Task(i, arrivalTime, serviceTime));
         }
@@ -58,7 +71,7 @@ public class SimulationManager implements Runnable {
         for(Task task : tasks){
             serviceTime += task.getServiceTime();
         }
-        return (float)serviceTime / tasks.size();
+        return (float)serviceTime / numberOfClients;
     }
 
     @Override
@@ -76,7 +89,7 @@ public class SimulationManager implements Runnable {
         PrintWriter printWriter = new PrintWriter(writer);
         int i;
         int currentHourTasks;
-        boolean empty = true;
+        boolean empty;
         AtomicInteger waitingTime = new AtomicInteger(0);
         int numberOfTasks = generatedTasks.size();
         int maxNumberOfTasksPerHour = -1;
@@ -85,6 +98,7 @@ public class SimulationManager implements Runnable {
 
             while (currentTime < timeLimit) {
                 currentHourTasks = 0;
+                empty = true;
                 //stuff
                 Iterator<Task> iterator = generatedTasks.iterator();
                 while(iterator.hasNext()){
@@ -104,9 +118,8 @@ public class SimulationManager implements Runnable {
                 if(generatedTasks.isEmpty()){
                     printWriter.print("Empty");
                 }else{
-                    for (Task task : generatedTasks) {
-                        if(task.getArrivalTime() <= currentTime)
-                            currentHourTasks++;
+                    empty = false;
+                    for(Task task : generatedTasks){
                         printWriter.print(task + ", ");
                     }
                 }
@@ -117,6 +130,7 @@ public class SimulationManager implements Runnable {
                     if(server.getTasks().isEmpty())
                         printWriter.print("empty");
                     else{
+                        empty = false;
                         for (Task task : server.getTasks()) {
                             currentHourTasks++;
                             printWriter.print(task + ", ");
@@ -125,6 +139,8 @@ public class SimulationManager implements Runnable {
                     printWriter.println();
                     i++;
                 }
+                printWriter.println();
+                printWriter.flush();
                 //wait an interval of 1 second
                 try {
                     Thread.sleep(Constants.SLEEP_TIME);
@@ -133,26 +149,40 @@ public class SimulationManager implements Runnable {
                 }
                 if(currentHourTasks > maxNumberOfTasksPerHour){
                     maxNumberOfTasksPerHour = currentHourTasks;
-                    peakHour = i;
+                    peakHour = currentTime;
                 }
+                if(empty)
+                    break;
                 currentTime++;
             }
+
             for (Server server : scheduler.getServers()){
                 server.setRunning(false);
             }
             printWriter.println("Average waiting time: " + (float)waitingTime.get()/numberOfTasks);
             printWriter.println("Average service time: " + averageServiceTime);
-            printWriter.println("Peak hour: " + peakHour);
+            printWriter.println("Peak hour: " + peakHour    );
             printWriter.close();
+            Thread.sleep(Constants.SLEEP_TIME/2);
+            stopSimulation();
         }catch(Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }
 
+    private void stopSimulation(){
+        running = false;
+        Thread.currentThread().interrupt();
+    }
+    public static boolean getRunningState(){
+        return running;
+    }
+
     public static void main(String[] args){
-        SimulationManager simulationManager = new SimulationManager(30, 10, 2, 2,4, 1);
+        SimulationManager simulationManager = new SimulationManager(200, 20,1000,10,100,3,9, SelectionPolicy.SHORTEST_TIME);
         Thread t1 = new Thread(simulationManager);
         t1.start();
     }
+
 }
 
