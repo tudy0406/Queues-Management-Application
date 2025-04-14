@@ -151,7 +151,7 @@ public class SimulationManager implements Runnable {
             }
             printWriter.println("Average waiting time: " + (float)waitingTime.get()/numberOfTasks);
             printWriter.println("Average service time: " + averageServiceTime);
-            printWriter.println("Peak hour: " + peakHour    );
+            printWriter.println("Peak hour: " + peakHour);
             printWriter.close();
             Thread.sleep(Constants.SLEEP_TIME/2);
             stopSimulation();

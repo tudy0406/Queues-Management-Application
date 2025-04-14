@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="simulationPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.project.assignment2.gui.SimulationFrameController">
+<AnchorPane fx:id="simulationPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.project.assignment2.gui.SimulationFrameController">
     <children>
-        <HBox alignment="TOP_CENTER" layoutX="19.0" layoutY="14.0" prefHeight="55.0" prefWidth="390.0">
+        <HBox alignment="TOP_CENTER" layoutX="16.0" layoutY="14.0" prefHeight="55.0" prefWidth="889.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation" textAlignment="JUSTIFY">
                     <font>
@@ -91,10 +92,11 @@
             </ChoiceBox>
             </children>
         </VBox>
-        <Button fx:id="simulateBtn" layoutX="175.0" layoutY="508.0" mnemonicParsing="false" onMouseClicked="#onSimulateBtnClick" text="Simulate">
+        <Button fx:id="simulateBtn" layoutX="76.0" layoutY="492.0" mnemonicParsing="false" onMouseClicked="#onSimulateBtnClick" text="Simulate">
             <font>
                 <Font size="15.0" />
             </font>
         </Button>
+      <TextArea fx:id="simulationTextArea" layoutX="409.0" layoutY="107.0" prefHeight="362.0" prefWidth="435.0" />
     </children>
 </AnchorPane>

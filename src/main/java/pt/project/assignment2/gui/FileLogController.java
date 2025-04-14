@@ -19,26 +19,7 @@ public class FileLogController {
 
     public void initialize(){
 
-        Thread fileWatcher = new Thread(() -> {
-            while (SimulationManager.getRunningState()) {
-                try {
-                    String content = Files.readString(Path.of(Constants.FILE_NAME));
 
-                    Platform.runLater(() -> {
-                        logTextArea.setText(content);
-                        logTextArea.setScrollTop(Double.MAX_VALUE);
-                    });
-
-                    Thread.sleep(Constants.SLEEP_TIME/2);
-                } catch (IOException e) {
-                    System.err.println("Error reading file: " + e.getMessage());
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        });
-        fileWatcher.setDaemon(true);
-        fileWatcher.start();
     }
 
 }

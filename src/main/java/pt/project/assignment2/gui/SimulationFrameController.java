@@ -1,5 +1,6 @@
 package pt.project.assignment2.gui;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,17 +8,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.project.assignment2.businessLogic.SelectionPolicy;
 import pt.project.assignment2.businessLogic.SimulationManager;
+import pt.project.assignment2.config.Constants;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class SimulationFrameController {
     @FXML
@@ -31,6 +32,7 @@ public class SimulationFrameController {
     public TextField maxServiceTimeField;
     public AnchorPane simulationPane;
     public ChoiceBox<String> strategyChoiceBox;
+    public TextArea simulationTextArea;
 
     private SelectionPolicy selectionPolicy = SelectionPolicy.SHORTEST_TIME;
     public void initialize() {
@@ -68,17 +70,26 @@ public class SimulationFrameController {
                     SimulationManager simulationManager = new SimulationManager(timeLimit, nbServers, nbClients, minArrivalTime, maxArrivalTime, minServiceTime, maxServiceTime, selectionPolicy);
                     Thread thread = new Thread(simulationManager);
                     thread.start();
-                    FXMLLoader loader = new FXMLLoader(SimulationFrameController.class.getResource("/pt/project/assignment2/filelog.fxml"));
-                    try{
-                        Parent root = loader.load();
-                        Stage stage = new Stage();
-                        stage.setTitle("View Log");
-                        stage.setScene(new Scene(root));
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.show();
-                    }catch(IOException e){
-                        e.printStackTrace();
-                    }
+                    Thread fileWatcher = new Thread(() -> {
+                        while (SimulationManager.getRunningState()) {
+                            try {
+                                String content = Files.readString(Path.of(Constants.FILE_NAME));
+
+                                Platform.runLater(() -> {
+                                    simulationTextArea.setText(content);
+                                    simulationTextArea.setScrollTop(Double.MAX_VALUE);
+                                });
+
+                                Thread.sleep(Constants.SLEEP_TIME/2);
+                            } catch (IOException e) {
+                                System.err.println("Error reading file: " + e.getMessage());
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }
+                    });
+                    fileWatcher.setDaemon(true);
+                    fileWatcher.start();
                 }
             }catch(NumberFormatException e){
                 AlertController.showAlert("Invalid Input!");
